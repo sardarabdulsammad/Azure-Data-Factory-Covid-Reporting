@@ -1,0 +1,9 @@
+{
+	"name": "reporting-covid-adf-abdulsammad",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e81d049c-6639-4b9c-bcff-e5969bd75a94",
+		"tenantId": "bce8d41b-19e4-4270-88dc-a080cbfdef92"
+	}
+}
