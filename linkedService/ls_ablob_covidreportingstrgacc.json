@@ -1,0 +1,13 @@
+{
+	"name": "ls_ablob_covidreportingstrgacc",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "This linked service will be used to copy a compressed file from azure blob storage to azure data lake with Copy activity",
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": "DefaultEndpointsProtocol=https;AccountName=covidreportingstrgacc;EndpointSuffix=core.windows.net;",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDZFNEFCMTgzLUE5QTktNDUxMS1BOTkyLTEzRkUzQTc2RkNCNV8yNTk3ZDU5MC03M2VhLTRjZTEtYmNjOS0wMGEzZmNiMDQ1ZGEiDQp9"
+		}
+	}
+}
