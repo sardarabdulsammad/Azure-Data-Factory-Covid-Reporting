@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy deaths data",
+				"name": "Copy ecdc data",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -48,11 +48,11 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_cases_deaths_http_csv",
+						"referenceName": "ds_ecdc_http_csv",
 						"type": "DatasetReference",
 						"parameters": {
 							"sourceRelativeUrl": {
-								"value": "@variables('sourceRelativeUrl')",
+								"value": "@pipeline().parameters.sourceRelativeUrl",
 								"type": "Expression"
 							}
 						}
@@ -60,11 +60,11 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_cases_deaths_raw_csv_dl",
+						"referenceName": "ds_ecdc_raw_csv_dl",
 						"type": "DatasetReference",
 						"parameters": {
 							"sinkFileName": {
-								"value": "@variables('sinkFileName')",
+								"value": "@pipeline().parameters.sinkFileName",
 								"type": "Expression"
 							}
 						}
@@ -72,14 +72,12 @@
 				]
 			}
 		],
-		"variables": {
+		"parameters": {
 			"sinkFileName": {
-				"type": "String",
-				"defaultValue": "hospital_admissions.csv"
+				"type": "string"
 			},
 			"sourceRelativeUrl": {
-				"type": "String",
-				"defaultValue": "cloudboxacademy/covid19/raw/main/ecdc_data/hospital_admissions.csv"
+				"type": "string"
 			}
 		},
 		"annotations": []
