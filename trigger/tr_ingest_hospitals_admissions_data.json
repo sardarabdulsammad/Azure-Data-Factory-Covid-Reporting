@@ -1,0 +1,17 @@
+{
+	"name": "tr_ingest_hospitals_admissions_data",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2023-07-28T23:04:00",
+				"timeZone": "Pakistan Standard Time"
+			}
+		}
+	}
+}
