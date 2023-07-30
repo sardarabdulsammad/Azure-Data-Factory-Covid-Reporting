@@ -21,7 +21,7 @@
 					"name": "selectOnlyRequiredColumns"
 				},
 				{
-					"name": "pivot1"
+					"name": "pivotCasesandDeathsdata"
 				}
 			],
 			"scriptLines": [
@@ -47,13 +47,20 @@
 				"          indicator,",
 				"          daily_count,",
 				"          source,",
-				"          each(match(name == 'date'),",
+				"          each(match(name=='date'),",
 				"               \"reported\"+\"_date\" = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> selectOnlyRequiredColumns",
-				"selectOnlyRequiredColumns pivot(columnNaming: '$N$V',",
-				"     lateral: true) ~> pivot1"
+				"selectOnlyRequiredColumns pivot(groupBy(country,",
+				"          country_code,",
+				"          population,",
+				"          source,",
+				"          reported_date),",
+				"     pivotBy(indicator, ['confirmed cases', 'deaths']),",
+				"     count = sum(daily_count),",
+				"     columnNaming: '$V_$N',",
+				"     lateral: true) ~> pivotCasesandDeathsdata"
 			]
 		}
 	}
