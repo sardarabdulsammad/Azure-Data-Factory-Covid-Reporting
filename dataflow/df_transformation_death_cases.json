@@ -19,6 +19,9 @@
 				},
 				{
 					"name": "selectOnlyRequiredColumns"
+				},
+				{
+					"name": "pivot1"
 				}
 			],
 			"scriptLines": [
@@ -48,7 +51,9 @@
 				"               \"reported\"+\"_date\" = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectOnlyRequiredColumns"
+				"     skipDuplicateMapOutputs: true) ~> selectOnlyRequiredColumns",
+				"selectOnlyRequiredColumns pivot(columnNaming: '$N$V',",
+				"     lateral: true) ~> pivot1"
 			]
 		}
 	}
