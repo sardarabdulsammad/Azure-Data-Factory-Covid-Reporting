@@ -19,7 +19,15 @@
 					"name": "lookupCountry"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_ecdc_pocessed",
+						"type": "DatasetReference"
+					},
+					"name": "CasesandDeathSink"
+				}
+			],
 			"transformations": [
 				{
 					"name": "filtereurope"
@@ -99,7 +107,15 @@
 				"          source",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     truncate: true,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> CasesandDeathSink"
 			]
 		}
 	}
