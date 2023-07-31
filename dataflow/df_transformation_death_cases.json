@@ -6,10 +6,17 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "df_cases_deaths",
+						"referenceName": "ds_ecdc_cases_deaths",
 						"type": "DatasetReference"
 					},
 					"name": "casesdeathsecdc"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_lookup",
+						"type": "DatasetReference"
+					},
+					"name": "lookupCountry"
 				}
 			],
 			"sinks": [],
@@ -22,6 +29,12 @@
 				},
 				{
 					"name": "pivotCasesandDeathsdata"
+				},
+				{
+					"name": "JoiningMultipleDatasets"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -39,6 +52,16 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> casesdeathsecdc",
+				"source(output(",
+				"          country as string,",
+				"          country_code_2_digit as string,",
+				"          country_code_3_digit as string,",
+				"          continent as string,",
+				"          population as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> lookupCountry",
 				"casesdeathsecdc filter(continent=='Europe' && not(isNull(country_code))) ~> filtereurope",
 				"filtereurope select(mapColumn(",
 				"          country,",
@@ -60,7 +83,27 @@
 				"     pivotBy(indicator, ['confirmed cases', 'deaths']),",
 				"     count = sum(daily_count),",
 				"     columnNaming: '$V_$N',",
-				"     lateral: true) ~> pivotCasesandDeathsdata"
+				"     lateral: true) ~> pivotCasesandDeathsdata",
+				"pivotCasesandDeathsdata, lookupCountry lookup(pivotCasesandDeathsdata@country == lookupCountry@country,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> JoiningMultipleDatasets",
+				"JoiningMultipleDatasets select(mapColumn(",
+				"          country = pivotCasesandDeathsdata@country,",
+				"          country_code,",
+				"          population = pivotCasesandDeathsdata@population,",
+				"          source,",
+				"          reported_date,",
+				"          {confirmed cases_count},",
+				"          deaths_count,",
+				"          country = lookupCountry@country,",
+				"          country_code_2_digit,",
+				"          country_code_3_digit,",
+				"          continent,",
+				"          population = lookupCountry@population",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}
 	}
